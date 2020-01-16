@@ -1,0 +1,21 @@
+package generated.pascalToC
+
+enum class Token {
+	FUNCTION,
+	PROCEDURE,
+	TYPE_INTEGER,
+	TYPE_CHAR,
+	TYPE_REAL,
+	TYPE_BOOLEAN,
+	TYPE_STRING,
+	SET,
+	OF,
+	LPAREN,
+	RPAREN,
+	COMMA,
+	COLON,
+	SEMICOLON,
+	IDENT,
+	EPS,
+	EOF
+}

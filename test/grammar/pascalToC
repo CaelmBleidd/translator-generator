@@ -1,0 +1,49 @@
+Attr %
+var variables = StringBuilder()
+%
+
+Node @
+var value = ""
+@
+
+start -> signature $res.value = var0.value;$ EOF;
+signature -> FUNCTION IDENT LPAREN args RPAREN COLON type SEMICOLON;
+signature -> PROCEDURE IDENT LPAREN args RPAREN SEMICOLON;
+
+args -> names COLON type $for (variable in var0.value.split(" ")) variables.append(variable + ' ' + var1.value + '\n');$ argsPrime;
+args -> EPS;
+argsPrime -> SEMICOLON names COLON type $for (variable in var0.value.split(" ")) variables.append(variable + ' ' + var1.value + '\n');$ argsPrime;
+argsPrime -> EPS;
+
+names -> IDENT $res.value = text + ' ';$ namesPrime $res.value += var0.value;$;
+
+namesPrime -> EPS $res.value = "";$;
+namesPrime -> COMMA IDENT $res.value = text + ' ';$ namesPrime $res.value += var0.value;$;
+
+type -> SET $res.value = text + ' ';$ OF $res.value += text + ' ';$ type $res.value += var0.value;$;
+type -> TYPE_INTEGER $res.value = text;$;
+type -> TYPE_REAL $res.value = text;$;
+type -> TYPE_CHAR $res.value = text;$;
+type -> TYPE_STRING $res.value = text;$;
+type -> TYPE_BOOLEAN $res.value = text;$;
+
+FUNCTION -> 'function';
+PROCEDURE -> 'procedure';
+
+TYPE_INTEGER -> 'integer';
+TYPE_CHAR -> 'char';
+TYPE_REAL -> 'real';
+TYPE_BOOLEAN -> 'boolean';
+TYPE_STRING -> 'string';
+
+SET -> 'set';
+OF -> 'of';
+
+LPAREN -> '\\(';
+RPAREN -> '\\)';
+COMMA -> ',';
+COLON -> ':';
+SEMICOLON -> ';';
+IDENT -> '[a-zA-Z_][a-zA-Z_0-9]*';
+EPS -> 'eps';
+EOF -> '\\$';

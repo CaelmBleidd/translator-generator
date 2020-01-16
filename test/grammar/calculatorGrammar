@@ -1,0 +1,46 @@
+Attr %
+val stack = ArrayDeque<Long>();
+%
+
+Node @
+var value = 0L;
+@
+
+start -> fullGrammar $res.value = var0.value;$ EOF;
+
+fullGrammar -> expression $res.value = var0.value;$ ;
+
+expression -> term expressionPrime $res.value = var1.value;$ ;
+
+expressionPrime -> MINUS term $val second = stack.pollLast(); val first = stack.pollLast(); stack.addLast(first - second);$
+    expressionPrime $res.value = var1.value;$ ;
+expressionPrime -> PLUS term $val second = stack.pollLast(); val first = stack.pollLast(); stack.addLast(first + second);$
+    expressionPrime $res.value = var1.value;$ ;
+expressionPrime -> EPS $res.value = stack.peekLast();$ ;
+
+term -> factor termPrime $res.value = var1.value;$ ;
+
+termPrime -> MUL factor $val second = stack.pollLast(); val first = stack.pollLast(); stack.addLast(first * second);$
+    termPrime $res.value = var1.value;$ ;
+termPrime -> EPS $res.value = stack.peekLast();$ ;
+
+factor -> number $res.value = text.toLong(); stack.addLast(text.toLong());$ ;
+factor -> exprInBrackets;
+factor -> MINUS exprInBrackets $res.value = -var0.value; stack.pollLast(); stack.addLast(res.value);$ ;
+
+exprInBrackets -> LPAREN expression RPAREN $res.value = var0.value;$ ;
+
+number -> NUMBER;
+
+PLUS -> '\\+';
+MINUS -> '\\-';
+
+MUL -> '\\*';
+
+NUMBER -> '[0-9]+';
+
+LPAREN -> '\\(';
+RPAREN -> '\\)';
+
+EPS -> 'EPS';
+EOF -> '\\$';
