@@ -20,7 +20,6 @@ names -> IDENT $res.value = text + ' ';$ namesPrime $res.value += var0.value;$;
 namesPrime -> EPS $res.value = "";$;
 namesPrime -> COMMA IDENT $res.value = text + ' ';$ namesPrime $res.value += var0.value;$;
 
-type -> SET $res.value = text + ' ';$ OF $res.value += text + ' ';$ type $res.value += var0.value;$;
 type -> TYPE_INTEGER $res.value = text;$;
 type -> TYPE_REAL $res.value = text;$;
 type -> TYPE_CHAR $res.value = text;$;
@@ -36,8 +35,6 @@ TYPE_REAL -> 'real';
 TYPE_BOOLEAN -> 'boolean';
 TYPE_STRING -> 'string';
 
-SET -> 'set';
-OF -> 'of';
 
 LPAREN -> '\\(';
 RPAREN -> '\\)';

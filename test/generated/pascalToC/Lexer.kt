@@ -50,7 +50,7 @@ class Lexer(private val stream: Reader) {
             last = curChar.toChar()
             toString = tokenText.toString()
             tokenText.append(curChar.toChar())
-            val isToken = tokenText.matches("function".toRegex()) || tokenText.matches("procedure".toRegex()) || tokenText.matches("integer".toRegex()) || tokenText.matches("char".toRegex()) || tokenText.matches("real".toRegex()) || tokenText.matches("boolean".toRegex()) || tokenText.matches("string".toRegex()) || tokenText.matches("set".toRegex()) || tokenText.matches("of".toRegex()) || tokenText.matches("\\(".toRegex()) || tokenText.matches("\\)".toRegex()) || tokenText.matches(",".toRegex()) || tokenText.matches(":".toRegex()) || tokenText.matches(";".toRegex()) || tokenText.matches("[a-zA-Z_][a-zA-Z_0-9]*".toRegex()) || tokenText.matches("eps".toRegex()) || tokenText.matches("\\$".toRegex())
+            val isToken = tokenText.matches("function".toRegex()) || tokenText.matches("procedure".toRegex()) || tokenText.matches("integer".toRegex()) || tokenText.matches("char".toRegex()) || tokenText.matches("real".toRegex()) || tokenText.matches("boolean".toRegex()) || tokenText.matches("string".toRegex()) || tokenText.matches("\\(".toRegex()) || tokenText.matches("\\)".toRegex()) || tokenText.matches(",".toRegex()) || tokenText.matches(":".toRegex()) || tokenText.matches(";".toRegex()) || tokenText.matches("[a-zA-Z_][a-zA-Z_0-9]*".toRegex()) || tokenText.matches("eps".toRegex()) || tokenText.matches("\\$".toRegex())
 
             if (isToken) {
                 nextChar()
@@ -105,18 +105,6 @@ class Lexer(private val stream: Reader) {
 
         if (toString.matches("string".toRegex())) {
             token = Token.TYPE_STRING
-            tokenValue = toString
-            return
-        }
-
-        if (toString.matches("set".toRegex())) {
-            token = Token.SET
-            tokenValue = toString
-            return
-        }
-
-        if (toString.matches("of".toRegex())) {
-            token = Token.OF
             tokenValue = toString
             return
         }

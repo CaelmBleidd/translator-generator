@@ -8,11 +8,11 @@ class Parser {
     lateinit var lexer: Lexer
     var text = ""
     val stack = ArrayDeque<Long>();
-
+    
     private fun unexpectedLiteral(rule: String): Nothing = throw ParseException(
-            "Unexpected literal ${lexer.tokenValue} in rule ${lexer.curPos}", lexer.curPos
+        "Unexpected literal ${lexer.tokenValue} in rule ${lexer.curPos}", lexer.curPos
     )
-
+    
     private fun check(token: Token, rule: String) {
         if (lexer.token != token) {
             unexpectedLiteral(rule)
@@ -23,7 +23,7 @@ class Parser {
     private fun number(): Node {
         val children = arrayListOf<Node>()
         val res = Node("number", children)
-
+        
         when (lexer.token) {
             Token.NUMBER -> {
                 check(Token.NUMBER, "NUMBER")
@@ -43,7 +43,7 @@ class Parser {
     private fun fullGrammar(): Node {
         val children = arrayListOf<Node>()
         val res = Node("fullGrammar", children)
-
+        
         when (lexer.token) {
             Token.NUMBER -> {
                 val var0 = expression()
@@ -75,7 +75,7 @@ class Parser {
     private fun expression(): Node {
         val children = arrayListOf<Node>()
         val res = Node("expression", children)
-
+        
         when (lexer.token) {
             Token.NUMBER -> {
                 val var0 = term()
@@ -116,7 +116,7 @@ class Parser {
     private fun exprInBrackets(): Node {
         val children = arrayListOf<Node>()
         val res = Node("exprInBrackets", children)
-
+        
         when (lexer.token) {
             Token.LPAREN -> {
                 check(Token.LPAREN, "LPAREN")
@@ -146,7 +146,7 @@ class Parser {
     private fun start(): Node {
         val children = arrayListOf<Node>()
         val res = Node("start", children)
-
+        
         when (lexer.token) {
             Token.NUMBER -> {
                 val var0 = fullGrammar()
@@ -196,7 +196,7 @@ class Parser {
     private fun expressionPrime(): Node {
         val children = arrayListOf<Node>()
         val res = Node("expressionPrime", children)
-
+        
         when (lexer.token) {
             Token.RPAREN -> {
                 res.value = stack.peekLast()
@@ -255,7 +255,7 @@ class Parser {
     private fun term(): Node {
         val children = arrayListOf<Node>()
         val res = Node("term", children)
-
+        
         when (lexer.token) {
             Token.NUMBER -> {
                 val var0 = factor()
@@ -296,7 +296,7 @@ class Parser {
     private fun factor(): Node {
         val children = arrayListOf<Node>()
         val res = Node("factor", children)
-
+        
         when (lexer.token) {
             Token.NUMBER -> {
                 val var0 = number()
@@ -336,7 +336,7 @@ class Parser {
     private fun termPrime(): Node {
         val children = arrayListOf<Node>()
         val res = Node("termPrime", children)
-
+        
         when (lexer.token) {
             Token.MUL -> {
                 check(Token.MUL, "MUL")
@@ -382,7 +382,6 @@ class Parser {
             }
         }
     }
-
     fun parse(input: String): Node {
         lexer = Lexer(input)
         return start()

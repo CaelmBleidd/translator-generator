@@ -8,8 +8,6 @@ enum class Token {
 	TYPE_REAL,
 	TYPE_BOOLEAN,
 	TYPE_STRING,
-	SET,
-	OF,
 	LPAREN,
 	RPAREN,
 	COMMA,

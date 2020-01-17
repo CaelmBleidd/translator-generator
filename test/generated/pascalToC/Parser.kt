@@ -249,27 +249,6 @@ class Parser {
         val res = Node("type", children)
         
         when (lexer.token) {
-            Token.SET -> {
-                check(Token.SET, "SET")
-                text = lexer.tokenValue
-                children.add(Node(text))
-
-                lexer.nextToken()
-
-                res.value = text + ' '
-                check(Token.OF, "OF")
-                text = lexer.tokenValue
-                children.add(Node(text))
-
-                lexer.nextToken()
-
-                res.value += text + ' '
-                val var0 = type()
-                children.add(var0)
-
-                res.value += var0.value
-                return res
-            }
             Token.TYPE_CHAR -> {
                 check(Token.TYPE_CHAR, "TYPE_CHAR")
                 text = lexer.tokenValue
