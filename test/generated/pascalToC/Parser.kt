@@ -3,6 +3,7 @@ package generated.pascalToC
 
 import java.text.ParseException
 import java.util.ArrayDeque
+import kotlin.math.*
 
 class Parser {
     lateinit var lexer: Lexer

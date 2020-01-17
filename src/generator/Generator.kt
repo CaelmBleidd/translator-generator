@@ -128,7 +128,7 @@ fun generateLexer(visitor: MyGrammarVisitor) = buildString {
         }
 
         append(
-"""
+                """
         if (toString.matches("${visitor.tokens[token]}".toRegex())) {
             token = Token.$token
             tokenValue = toString
@@ -147,9 +147,10 @@ fun generateLexer(visitor: MyGrammarVisitor) = buildString {
 
 fun generateParser(visitor: MyGrammarVisitor) = buildString {
     append(
-"""
+            """
 import java.text.ParseException
 import java.util.ArrayDeque
+import kotlin.math.*
 
 class Parser {
     lateinit var lexer: Lexer

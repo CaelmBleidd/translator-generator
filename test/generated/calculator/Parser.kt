@@ -3,6 +3,7 @@ package generated.calculator
 
 import java.text.ParseException
 import java.util.ArrayDeque
+import kotlin.math.*
 
 class Parser {
     lateinit var lexer: Lexer
@@ -293,9 +294,9 @@ class Parser {
         }
     }
 
-    private fun factor(): Node {
+    private fun power(): Node {
         val children = arrayListOf<Node>()
-        val res = Node("factor", children)
+        val res = Node("power", children)
         
         when (lexer.token) {
             Token.NUMBER -> {
@@ -328,7 +329,103 @@ class Parser {
                 return res
             }
             else -> {
+                unexpectedLiteral("power")
+            }
+        }
+    }
+
+    private fun factor(): Node {
+        val children = arrayListOf<Node>()
+        val res = Node("factor", children)
+        
+        when (lexer.token) {
+            Token.NUMBER -> {
+                val var0 = power()
+                children.add(var0)
+
+                val var1 = powerPrime()
+                children.add(var1)
+
+                res.value = var0.value
+                return res
+            }
+            Token.LPAREN -> {
+                val var0 = power()
+                children.add(var0)
+
+                val var1 = powerPrime()
+                children.add(var1)
+
+                res.value = var0.value
+                return res
+            }
+            Token.MINUS -> {
+                val var0 = power()
+                children.add(var0)
+
+                val var1 = powerPrime()
+                children.add(var1)
+
+                res.value = var0.value
+                return res
+            }
+            else -> {
                 unexpectedLiteral("factor")
+            }
+        }
+    }
+
+    private fun powerPrime(): Node {
+        val children = arrayListOf<Node>()
+        val res = Node("powerPrime", children)
+        
+        when (lexer.token) {
+            Token.POW -> {
+                check(Token.POW, "POW")
+                text = lexer.tokenValue
+                children.add(Node(text))
+
+                lexer.nextToken()
+
+                val var0 = power()
+                children.add(var0)
+
+                val second = stack.pollLast()
+                val first = stack.pollLast()
+                stack.addLast(second.toDouble().pow(first.toDouble()).toLong())
+                val var1 = powerPrime()
+                children.add(var1)
+
+                res.value = var1.value
+                return res
+            }
+            Token.MUL -> {
+                res.value = stack.peekLast()
+                children.add(Node("EPS"))
+                return res
+            }
+            Token.RPAREN -> {
+                res.value = stack.peekLast()
+                children.add(Node("EPS"))
+                return res
+            }
+            Token.EOF -> {
+                res.value = stack.peekLast()
+                children.add(Node("EPS"))
+                return res
+            }
+            Token.MINUS -> {
+                res.value = stack.peekLast()
+                children.add(Node("EPS"))
+                return res
+            }
+            Token.PLUS -> {
+                res.value = stack.peekLast()
+                children.add(Node("EPS"))
+                return res
+            }
+            else -> {
+                unexpectedLiteral("powerPrime")
             }
         }
     }

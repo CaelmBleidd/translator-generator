@@ -24,9 +24,16 @@ termPrime -> MUL factor $val second = stack.pollLast(); val first = stack.pollLa
     termPrime $res.value = var1.value;$ ;
 termPrime -> EPS $res.value = stack.peekLast();$ ;
 
-factor -> number $res.value = text.toLong(); stack.addLast(text.toLong());$ ;
-factor -> exprInBrackets;
-factor -> MINUS exprInBrackets $res.value = -var0.value; stack.pollLast(); stack.addLast(res.value);$ ;
+
+
+factor -> power powerPrime $res.value = var0.value;$;
+
+power -> number $res.value = text.toLong(); stack.addLast(text.toLong());$ ;
+power -> exprInBrackets;
+power -> MINUS exprInBrackets $res.value = -var0.value; stack.pollLast(); stack.addLast(res.value);$ ;
+
+powerPrime -> POW power $ val second = stack.pollLast(); val first = stack.pollLast(); stack.addLast(second.toDouble().pow(first.toDouble()).toLong()); $ powerPrime $ res.value = var1.value; $;
+powerPrime -> EPS $res.value = stack.peekLast();$ ;
 
 exprInBrackets -> LPAREN expression RPAREN $res.value = var0.value;$ ;
 
@@ -36,6 +43,8 @@ PLUS -> '\\+';
 MINUS -> '\\-';
 
 MUL -> '\\*';
+
+POW -> '\\^';
 
 NUMBER -> '[0-9]+';
 

@@ -50,7 +50,7 @@ class Lexer(private val stream: Reader) {
             last = curChar.toChar()
             toString = tokenText.toString()
             tokenText.append(curChar.toChar())
-            val isToken = tokenText.matches("\\+".toRegex()) || tokenText.matches("\\-".toRegex()) || tokenText.matches("\\*".toRegex()) || tokenText.matches("[0-9]+".toRegex()) || tokenText.matches("\\(".toRegex()) || tokenText.matches("\\)".toRegex()) || tokenText.matches("EPS".toRegex()) || tokenText.matches("\\$".toRegex())
+            val isToken = tokenText.matches("\\+".toRegex()) || tokenText.matches("\\-".toRegex()) || tokenText.matches("\\*".toRegex()) || tokenText.matches("\\^".toRegex()) || tokenText.matches("[0-9]+".toRegex()) || tokenText.matches("\\(".toRegex()) || tokenText.matches("\\)".toRegex()) || tokenText.matches("EPS".toRegex()) || tokenText.matches("\\$".toRegex())
 
             if (isToken) {
                 nextChar()
@@ -81,6 +81,12 @@ class Lexer(private val stream: Reader) {
 
         if (toString.matches("\\*".toRegex())) {
             token = Token.MUL
+            tokenValue = toString
+            return
+        }
+
+        if (toString.matches("\\^".toRegex())) {
+            token = Token.POW
             tokenValue = toString
             return
         }

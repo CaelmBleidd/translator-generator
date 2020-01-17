@@ -4,6 +4,7 @@ enum class Token {
 	PLUS,
 	MINUS,
 	MUL,
+	POW,
 	NUMBER,
 	LPAREN,
 	RPAREN,
